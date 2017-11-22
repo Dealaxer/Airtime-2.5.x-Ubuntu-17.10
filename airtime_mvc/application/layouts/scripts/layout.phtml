@@ -1,0 +1,80 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<?php echo $this->headTitle() ?>
+	<?php echo $this->headLink() ?>
+	<?php echo $this->headScript() ?>
+	<?php echo isset($this->google_analytics)?$this->google_analytics:"" ?>
+	<?php $baseUrl = Application_Common_OsPath::getBaseDir(); ?>
+</head>
+<body>
+
+<?php echo $this->partial('partialviews/trialBox.phtml', array("is_trial"=>$this->isTrial(), "trial_remain"=> $this->trialRemaining())) ?>
+<div id="Panel" class="sticky">
+    <div class="logo"></div>
+    <?php echo $this->versionNotify();
+            $sss = $this->SourceSwitchStatus();
+            $scs = $this->SourceConnectionStatus();
+    ?>
+    <?php echo $this->partial('partialviews/header.phtml', array("live_dj_switch"=>$sss['live_dj'], "live_dj_connection"=>$scs['live_dj'], "master_dj_switch"=>$sss['master_dj'], "master_dj_connection"=>$scs['master_dj'],
+                "scheduled_play_switch"=>$sss['scheduled_play'])) ?>
+<?php 	$partial = array('menu.phtml', 'default');
+    $this->navigation()->menu()->setPartial($partial); ?>
+    <div class="personal-block solo">
+        <ul>
+          <li>
+            <a id="current-user" href=<?php echo $baseUrl . "User/edit-user"?>><span class="name"><?php echo $this->escape($this->loggedInAs()); ?></span></a> | <a href=<?php echo $baseUrl . "Login/logout"?>><?php echo _("Logout")?></a>
+          </li>
+        </ul>
+    </div>
+
+<?php echo $this->navigation()->menu() ?>
+</div>
+
+<div class="wrapper" id="content"><?php echo $this->layout()->content ?></div>
+
+<script id="tmpl-pl-cues" type="text/template">
+<div class="waveform-cues">
+  <div class="playlist-time-scale"></div>
+  <div class="playlist-tracks"></div>
+  <div class="playlist-controls">
+	<a class="btn btn-small btn_play"><i class="icon-play icon-white"></i><?php echo _("Play"); ?></a>
+    <a class="btn btn-small btn_stop"><i class="icon-stop icon-white"></i><?php echo _("Stop"); ?></a>
+	<label class="audio audio_pos">00:00:00.0</label>
+  </div>
+  <div class="set-cue">
+	<label for="editor-cue-in"><?php echo _("Cue In"); ?></label>
+    <input type="text" class="audio_start">
+    <input type="button" class="btn btn-small set-cue-in" value="<?php echo _("Set Cue In"); ?>">
+    <label class="audio editor-cue-in">00:00:00.0</label>
+    <span style="display:none" class="cue-in-error"></span>
+  </div>
+  <div class="set-cue">
+    <label for="editor-cue-out"><?php echo _("Cue Out"); ?></label>
+    <input type="text" class="audio_end">
+    <input type="button" class="btn btn-small set-cue-out" value="<?php echo _("Set Cue Out"); ?>">
+    <label class="audio editor-cue-out">00:00:00.0</label>
+    <span style="display:none" class="cue-out-error"></span>
+  </div>
+</div>
+</script>
+
+<script id="tmpl-pl-fades" type="text/template">
+<div class="waveform-fades">
+  <div class="playlist-time-scale"></div>
+  <div class="playlist-tracks"></div>
+  <div class="playlist-controls left-floated">
+    <a class="btn btn-small btn_play"><i class="icon-play icon-white"></i><?php echo _("Play"); ?></a>
+    <a class="btn btn-small btn_stop"><i class="icon-stop icon-white"></i><?php echo _("Stop"); ?></a>
+	<label class="audio audio_pos">00:00:00.0</label>
+  </div>
+  <div class="set-fade left-floated">
+     <a type="button" class="btn btn-small btn_cursor" data-state="cursor"><?php echo _("Cursor"); ?></a>
+     <a type="button" class="btn btn-small btn_fadein" data-state="fadein"><?php echo _("Fade In"); ?></a>
+     <a type="button" class="btn btn-small btn_fadeout" data-state="fadeout"><?php echo _("Fade Out"); ?></a>
+  </div>
+</div>
+</script>
+</body>
+</html>

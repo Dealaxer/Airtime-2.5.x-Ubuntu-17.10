@@ -1,0 +1,26 @@
+<ul id="nav">
+<?php foreach ($this->container as $page) : ?>
+    <?php if($this->navigation()->accept($page)) : ?>
+	    <li class="top <?php if($page->isActive(true)){echo 'active';} ?>">
+		    <?php if($page->hasPages()) : ?>
+		    <a class="top_link" href="<?php echo $page->getHref(); ?>">
+        		<span class="down"><?php echo _($page->getLabel()); ?></span>
+		    </a>
+		    <ul class="sub">
+			    <?php foreach ($page->getPages() as $sub) : ?>
+			    <?php if($this->navigation()->accept($sub)) : ?>
+			    <li>
+				    <a href="<?php echo $sub->getHref(); ?>" <?php echo ($sub->getTarget() != "")?"target=\"".$sub->getTarget()."\"":""; ?>><?php echo _($sub->getLabel()); ?></a>
+			    </li>
+			    <?php endif; ?>
+			    <?php endforeach; ?>
+		    </ul>
+		    <?php else: ?>
+		    <a class="top_link" href="<?php echo $page->getHref(); ?>">
+        		<span><?php echo _($page->getLabel()); ?></span>
+		    </a>
+		    <?php endif; ?>
+	    </li>
+    <?php endif; ?>
+<?php endforeach; ?>
+</ul>

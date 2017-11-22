@@ -1,0 +1,24 @@
+<?php if (!$this->disableLib): ?>
+<div id="library_content" class="lib-content tabs ui-widget ui-widget-content block-shadow alpha-block padded"
+    <?php if (!$this->showLib): ?>
+    style="display:none"
+    <?php endif; ?>
+>
+    <?php echo $this->render('library/library.phtml') ?>
+</div>
+<?php endif; ?>
+
+<div id="show_builder" class="sb-content ui-widget ui-widget-content block-shadow omega-block padded">
+    <div class="sb-timerange">
+        <?php if(!$this->disableLib && !$this->showLib):?>
+        <a id="sb_edit" class="btn btn-small" href="#" title="Open library to add or remove content">
+            <?php echo _("Add / Remove Content")?>
+        </a> 
+        <?php endif; ?>
+    <?php echo $this->sb_form; ?>
+    </div>
+    <table id="show_builder_table" cellpadding="0" cellspacing="0" class="datatable"></table>
+</div>
+
+
+<?php echo $this->dialog ?>

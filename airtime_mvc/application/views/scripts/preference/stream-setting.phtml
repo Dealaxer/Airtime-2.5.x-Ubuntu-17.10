@@ -1,0 +1,120 @@
+<div class="ui-widget ui-widget-content block-shadow simple-formblock clearfix padded-strong stream-config">
+    <h2 <?php if($this->enable_stream_conf == "true"){?>style="float:left"<?php }?>><?php echo _("Stream Settings") ?></h2>
+    <?php $baseUrl = Application_Common_OsPath::getBaseDir(); ?>
+    <?php if($this->enable_stream_conf == "true"){?>
+    <form method="post" id="stream_form" enctype="application/x-www-form-urlencoded">
+    <button name="stream_save" id="stream_save" type="button" class="btn btn-small right-floated"><?php echo _("Save") ?></button>
+    <?php echo $this->form->getElement('csrf') ?>
+    <div style="clear:both"></div>
+    <?php }?>
+  <?php echo $this->statusMsg;?>
+  <div style="float: left; margin-right: 10px; width: 490px; overflow: auto;">
+    <fieldset class="padded stream-setting-global">
+        <legend><?php echo _("Global Settings") ?></legend>
+        <dl class="zend_form">
+        <?php if($this->form->getElement('output_sound_device') != null){?>
+            <dt id="hardwareOut-label">
+                <label class="required">
+                <?php echo $this->form->getElement('output_sound_device')->getLabel() ?> :
+                </label>
+            </dt>
+            <dd id="hardwareOut-element">
+                <?php echo $this->form->getElement('output_sound_device') ?>
+            </dd>
+            <dt id="hardwareOutType-label">
+                <label class="required">
+                <?php echo $this->form->getElement('output_sound_device_type')->getLabel() ?> :
+                </label>
+            </dt>
+            <dd id="hardwareOutType-element">
+                <?php echo $this->form->getElement('output_sound_device_type') ?>
+            </dd>
+        <?php } ?>
+            <dt id="vorbisMetadata-label">
+                <label class="required">
+                    <?php echo $this->form->getElement('icecast_vorbis_metadata')->getLabel() ?> :
+                    <span class='icecast_metadata_help_icon'></span>
+                </label>
+            </dt>
+            <dd id="vorbisMetadata-element">
+                <?php echo $this->form->getElement('icecast_vorbis_metadata') ?>
+            </dd>
+            <dt id="streamFormat-label">
+                <label class="optional"><?php echo $this->form->getElement('streamFormat')->getLabel() ?></label>
+            </dt>
+            <br>
+            <dd id="streamFormat-element" class="radio-inline-list">
+                <?php $i=0;
+                      $value = $this->form->getElement('streamFormat')->getValue();
+                ?>
+                <?php foreach ($this->form->getElement('streamFormat')->getMultiOptions() as $radio) : ?>
+                    <label for="streamFormat-<?php echo $i ?>">
+                        <input type="radio" value="<?php echo $i ?>" id="streamFormat-<?php echo $i ?>" name="streamFormat" <?php if($i == $value){echo 'checked="checked"';}?> >
+                            <?php echo $radio ?>
+                        </input>
+                    </label>
+                    <?php $i = $i + 1; ?>
+                <?php endforeach; ?>
+                <?php if($this->form->getElement('streamFormat')->hasErrors()) : ?>
+                    <ul class='errors'>
+                        <?php foreach($this->form->getElement('streamFormat')->getMessages() as $error): ?>
+                            <li><?php echo $error; ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </dd>
+            <dt id="offAirMeta-label">
+                <label>
+                    <?php echo $this->form->getElement('offAirMeta')->getLabel() ?> :
+                </label>
+            </dt>
+            <dd id="offAirMeta-element">
+                <?php echo $this->form->getElement('offAirMeta') ?>
+            </dd>
+            <dt id="enableReplayGain-label">
+                <label>
+                <?php echo $this->form->getElement('enableReplayGain')->getLabel() ?> :
+                </label>
+            </dt>
+            <dd id="enableReplayGain-element">
+                <?php echo $this->form->getElement('enableReplayGain') ?>
+            </dd>
+            <dt id="replayGainModifier-label" class="block-display">
+                <label><?php echo $this->form->getElement('replayGainModifier')->getLabel() ?>:
+                </label>
+                <span id="rg_modifier_value" style="border: 0; color: #f6931f; font-weight: bold;">
+                    <?php echo $this->form->getElement('replayGainModifier')->getValue() ?>
+                </span>
+                <?php echo _("dB")?>
+            </dt>
+            <dd id="replayGainModifier-element" class="block-display">
+                <?php echo $this->form->getElement('replayGainModifier') ?>
+                <?php if($this->form->getElement('replayGainModifier')->hasErrors()) : ?>
+                    <ul class='errors'>
+                        <?php foreach($this->form->getElement('replayGainModifier')->getMessages() as $error): ?>
+                            <li><?php echo $error; ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+                <div id="slider-range-max" style="width: 99%"></div>
+            </dd>
+        </dl>
+    </fieldset>
+    <?php echo $this->form->getSubform('live_stream_subform'); ?>
+  </div>
+  <div style="float: left; width: 600px;">
+    <fieldset class="padded">
+    <legend><?php echo _("Output Stream Settings") ?></legend>
+    <?php
+        for($i=1;$i<=$this->num_stream;$i++){
+            echo $this->form->getSubform("s".$i."_subform");
+        }
+    ?>
+    </fieldset>
+    <?php if($this->enable_stream_conf == "true"){?>
+    <br />
+    <button name="stream_save" id="stream_save" type="button" class="btn btn-small right-floated"><?php echo _("Save") ?></button>
+    <?php }?>
+  </div>
+    </form>
+</div>
