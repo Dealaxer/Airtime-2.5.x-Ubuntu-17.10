@@ -443,6 +443,7 @@ loud "-----------------------------------------------------"
 
 verbose "\n * Installing necessary python services..."
 loudCmd "pip install setuptools"
+loudCmd "pip install zipp==1.0.0"
 verbose "...Done"
 
 verbose "\n * Creating /run/airtime..."
